@@ -51,7 +51,7 @@ type Fset struct{}
 ####  Using go install
 
 ```
-go install github.com/samuel/formattag@latest
+go install github.com/samuelsih/formattag@latest
 ```
 
 ### Usage
