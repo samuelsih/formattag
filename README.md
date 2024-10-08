@@ -1,4 +1,5 @@
 ## Formattag
+This is forked project from [momaek/formattag](https://github.com/momaek/formattag)
 
 The tool is used to align golang struct's tags.
 
@@ -53,66 +54,8 @@ type Fset struct{}
 go install github.com/momaek/formattag@latest
 ```
 
-
-####  Compile from source
-Compile from source, which requires [Go 1.18 or newer](https://golang.org/doc/install):
-```
-git clone github.com/momaek/formattag
-cd formattag && go build .
-```
-
-#### Prebuild binaries
-Please check the [release page](https://github.com/momaek/formattag/releases) and download the lastest release.
-
 ### Usage
 
 ```
-formattag -file /path/to/your/golang/file
+formattag 
 ```
-
-**This command will change your go file.**
-
-If you want print result on console:
-```
-formattag -file /path/to/your/golang/file -C 
-```
-
-You can also get input from stdin(result will be print on console):
-```
-cat /path/to/your/golang/file | formattag
-```
-
-#### Vim
-If you're using vim or nvim, you'd better install from source.
-
-Add the following snippet to your ~/.vimrc:
-```
-set rtp+={/path/to/your/downloaded/source}/formattag/vim
-```
-Running `:PrettyTag` will run formattag on the current file.
-
-Optionally, add this to your `~/.vimrc` to automatically run `formattag` on :w
-```
-autocmd BufWritePost,FileWritePost *.go execute 'PrettyTag' | checktime
-```
-
-#### Emacs
-
-Please check [https://github.com/M1ndo/gofmt-tag](https://github.com/M1ndo/gofmt-tag).
-
-Provided by [M1ndo](https://github.com/M1ndo)
-
-#### VSCode
-Please Install [Run On Save](https://marketplace.visualstudio.com/items?itemName=emeraldwalk.RunOnSave)
-Add the following code snippet to `settings.json`.
-```json
-{
-    "match": "\\.go$",
-    "isAsync": false,
-    "cmd": "/path/to/formattag -file ${file}"
-}
-```
-
-#### GoLand
-e.g.
-![](images/goland_set.jpg)
