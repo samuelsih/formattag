@@ -35,9 +35,9 @@ func main() {
 		targetdir = os.Args[1]
 	}
 
-	dirfs := os.DirFS(targetdir)
+	fsys := os.DirFS(targetdir)
 
-	fs.WalkDir(dirfs, ".", func(p string, info fs.DirEntry, err error) error {
+	fs.WalkDir(fsys, ".", func(p string, info fs.DirEntry, err error) error {
 		if info.IsDir() {
 			return nil
 		}
