@@ -1,4 +1,4 @@
-module github.com/momaek/formattag
+module github.com/samuelsih/formattag
 
 go 1.18
 

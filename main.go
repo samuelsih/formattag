@@ -8,7 +8,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/momaek/formattag/align"
+	"github.com/samuelsih/formattag/align"
 )
 
 var version string
