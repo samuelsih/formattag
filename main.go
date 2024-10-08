@@ -30,7 +30,12 @@ func main() {
 		return
 	}
 
-	dirfs := os.DirFS(".")
+	targetdir := "."
+	if len(os.Args) == 2 {
+		targetdir = os.Args[1]
+	}
+
+	dirfs := os.DirFS(targetdir)
 
 	fs.WalkDir(dirfs, ".", func(p string, info fs.DirEntry, err error) error {
 		if info.IsDir() {
