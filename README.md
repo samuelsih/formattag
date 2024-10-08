@@ -1,5 +1,5 @@
 ## Formattag
-This is forked project from [momaek/formattag](https://github.com/momaek/formattag)
+This is forked project from [momaek/formattag](https://github.com/momaek/formattag).
 
 The tool is used to align golang struct's tags.
 
@@ -51,11 +51,11 @@ type Fset struct{}
 ####  Using go install
 
 ```
-go install github.com/momaek/formattag@latest
+go install github.com/samuel/formattag@latest
 ```
 
 ### Usage
 
 ```
-formattag 
+formattag .
 ```
