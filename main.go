@@ -1,11 +1,12 @@
 package main
 
 import (
-	"bufio"
 	"flag"
 	"fmt"
+	"io/fs"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/momaek/formattag/align"
 )
@@ -14,12 +15,10 @@ var version string
 
 func main() {
 	var (
-		file           string
 		showVersion    bool
 		writeToConsole bool
 	)
 
-	flag.StringVar(&file, "file", "", "input data")
 	flag.BoolVar(&showVersion, "v", false, "show version")
 	flag.BoolVar(&writeToConsole, "C", false, "Write result to console")
 	flag.Parse()
@@ -31,26 +30,34 @@ func main() {
 		return
 	}
 
-	if len(file) > 0 {
-		align.Init(file)
-	} else {
-		stat, _ := os.Stdin.Stat()
-		if (stat.Mode() & os.ModeCharDevice) == 0 {
-			reader := bufio.NewReader(os.Stdin)
-			align.Init(reader)
-			writeToConsole = true
+	dirfs := os.DirFS(".")
+
+	fs.WalkDir(dirfs, ".", func(p string, info fs.DirEntry, err error) error {
+		if info.IsDir() {
+			return nil
 		}
-	}
 
-	b, err := align.Do()
-	if err != nil {
-		log.Fatal("align failed ", err)
-	}
+		if !strings.HasSuffix(info.Name(), ".go") {
+			return nil
+		}
 
-	if writeToConsole {
-		fmt.Println(string(b))
-		return
-	}
+		align.Init(p)
 
-	os.WriteFile(file, b, 0)
+		b, errWalk := align.Do()
+		if errWalk != nil {
+			log.Fatalf("Align failed for %s - %v", p, errWalk)
+		}
+
+		if writeToConsole {
+			fmt.Println(string(b))
+			return nil
+		}
+
+		errWalk = os.WriteFile(p, b, 0)
+		if errWalk != nil {
+			log.Fatalf("Cannot write to file %s - %v", p, errWalk)
+		}
+
+		return nil
+	})
 }
