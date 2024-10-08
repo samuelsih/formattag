@@ -37,7 +37,7 @@ func main() {
 
 	fsys := os.DirFS(targetdir)
 
-	fs.WalkDir(fsys, ".", func(p string, info fs.DirEntry, err error) error {
+	err := fs.WalkDir(fsys, ".", func(p string, info fs.DirEntry, err error) error {
 		if info.IsDir() {
 			return nil
 		}
@@ -50,7 +50,7 @@ func main() {
 
 		b, errWalk := align.Do()
 		if errWalk != nil {
-			log.Fatalf("Align failed for %s - %v", p, errWalk)
+			return fmt.Errorf("align failed for %s - %w", p, errWalk)
 		}
 
 		if writeToConsole {
@@ -60,9 +60,13 @@ func main() {
 
 		errWalk = os.WriteFile(p, b, 0)
 		if errWalk != nil {
-			log.Fatalf("Cannot write to file %s - %v", p, errWalk)
+			return fmt.Errorf("cannot write to file %s - %w", p, errWalk)
 		}
 
 		return nil
 	})
+
+	if err != nil {
+		log.Fatal(err)
+	}
 }
